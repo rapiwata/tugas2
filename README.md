@@ -97,7 +97,7 @@ Jawab :
 bagan/grafik berada di link berikut
 |  |   |   |   |   
 V  V   V   V   V
-https://tugas-2-studytracker-mraffi.up.railway.app/
+https://www.canva.com/design/DAFbfxG2HKM/2IIJ7W_nUIFAg0190I97Kw/view?utm_content=DAFbfxG2HKM&utm_campaign=share_your_design&utm_medium=link&utm_source=shareyourdesignpanel
 
 2.Jelaskan kenapa menggunakan virtual environment? Apakah kita tetap dapat membuat aplikasi web berbasis Django tanpa menggunakan virtual environment?
 
