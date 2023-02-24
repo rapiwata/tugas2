@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h5>Nama: </h5>
+<b>{{name}}</b>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Jenis</th>
+        <th>subjek</th>
+        <th>progress</th>
+        <th>description</th>
+    </tr>
+    {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
+    {% for transaction in list_of_transactions %}
+    <tr>
+        <td>{{assignment.name}}</td>
+        <td>{{assignment.type}}</td>
+        <td>{{assignment.amount}}</td>
+        <td>{{assignment.date}}</td>
+        <td>{{assignment.description}}</td>
+    </tr>
+{% endfor %}
+</table>
+
+{% endblock content %}
+
