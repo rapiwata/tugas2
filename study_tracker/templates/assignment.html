@@ -6,8 +6,9 @@
 
 <table>
     <tr>
-        <th>Name</th>
-        <th>Subjek</th>
+        <th>Nama Tugas</th>
+        <th>Mata Kuliah</th>
+        <th>Tipe Tugas</th>
         <th>Tanggal</th>
         <th>Progres</th>
         <th>Deskripsi</th>
@@ -16,6 +17,7 @@
     {% for assignment in list_of_study %}
     <tr>
         <td>{{assignment.name}}</td>
+        <td>{{assignment.lesson}}</td>
         <td>{{assignment.subject}}</td>
         <td>{{assignment.date}}</td>
         <td>{{assignment.progress}}</td>

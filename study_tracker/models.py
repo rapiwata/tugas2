@@ -8,7 +8,8 @@ TYPE_CHOICES = [
 
 class Assignment(models.Model):
     name = models.CharField(max_length=50)
-    subject = models.CharField(max_length=20)
+    lesson = models.CharField(max_length=50)
+    subject = models.CharField(max_length=20, choices=TYPE_CHOICES)
     date = models.DateTimeField(auto_now_add=True)
     progress = models.IntegerField()
     description = models.TextField()
