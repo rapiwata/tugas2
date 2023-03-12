@@ -221,3 +221,112 @@ urlpatterns = [
 
 (step akhir) untuk memastikan server nya berjalan lakukan perintah python manage.py runserver pada command promp [http://localhost:8000/study_tracker/] //klik ctrl-c untuk mengakhiri server
 
+Soal Latihan Baru(Latihan 4)
+
+1.Apa kegunaan {% csrf_token %} pada elemen <form>? Apa yang terjadi apabila tidak ada potongan kode tersebut pada elemen <form>?
+
+Jawab:
+
+
+{% csrf_token %} adalah tag template Django yang digunakan untuk menambahkan token CSRF (Cross-site request forgery) pada elemen <form>. CSRF token adalah tanda digital yang digunakan untuk mengidentifikasi apakah permintaan POST yang dibuat oleh pengguna benar-benar berasal dari situs web yang sah.
+
+Jika tidak ada potongan kode {% csrf_token %} pada elemen <form>, maka Django akan mengembalikan pesan kesalahan "CSRF verification failed". Hal ini karena Django secara default memerlukan token CSRF untuk setiap permintaan POST yang diterima untuk menghindari serangan CSRF.
+
+Oleh karena itu, penting untuk selalu menambahkan {% csrf_token %} pada setiap elemen <form> yang mengandung permintaan POST dalam aplikasi.
+
+2.Apakah kita dapat membuat elemen <form> secara manual (tanpa menggunakan generator seperti {{ form.as_table }})? Jelaskan secara gambaran besar bagaimana cara membuat <form> secara manual.
+
+Jawab:
+Ya, kita dapat membuat elemen <form> secara manual tanpa menggunakan generator seperti {{ form.as_table }}. Dalam hal ini, kita perlu menulis kode HTML secara manual untuk menentukan elemen <form>, seperti <input>, <label>, dan lain-lain.
+
+Berikut adalah gambaran besar cara membuat <form> secara manual:
+
+Tentukan aksi dan metode formulir
+Kita perlu menentukan aksi dan metode formulir. Aksi formulir menunjukkan URL ke mana data formulir dikirimkan dan metode formulir menunjukkan cara data dikirimkan (POST atau GET).
+
+Contoh:
+
+php
+Copy code
+<form action="/submit-form/" method="post">
+Tambahkan input dan label
+Kita perlu menambahkan input dan label ke dalam elemen <form>. Input dapat berupa jenis-jenis seperti teks, kata sandi, kotak centang, radio button, dan sebagainya. Setiap input membutuhkan label yang terkait.
+
+Contoh:
+
+ruby
+Copy code
+<label for="username">Username:</label>
+<input type="text" id="username" name="username" required>
+Tambahkan tombol submit
+Kita perlu menambahkan tombol submit agar pengguna dapat mengirimkan data formulir ke server.
+
+Contoh:
+
+bash
+Copy code
+<button type="submit">Submit</button>
+Tambahkan token CSRF
+Kita perlu menambahkan token CSRF untuk melindungi formulir dari serangan CSRF.
+
+Contoh:
+
+Copy code
+{% csrf_token %}
+Setelah formulir selesai dibuat, kita dapat menempatkannya pada halaman web dengan menambahkan elemen <form> pada HTML. Dalam contoh di atas, formulir akan muncul pada halaman web di URL "/submit-form/" dengan metode POST.
+
+3.Jelaskan proses alur data dari submisi yang dilakukan oleh pengguna melalui HTML form, penyimpanan data pada database, hingga munculnya data yang telah disimpan pada template HTML.
+
+Jawab:
+Proses alur data dari submisi yang dilakukan oleh pengguna melalui HTML form, penyimpanan data pada database, hingga munculnya data yang telah disimpan pada template HTML dapat dijelaskan sebagai berikut:
+
+Submisi formulir oleh pengguna
+Pengguna mengisi formulir pada halaman web dan menekan tombol "submit".
+
+Data formulir dikirim ke server
+Data formulir yang diisi oleh pengguna dikirim ke server melalui protokol HTTP.
+
+Validasi data
+Server melakukan validasi data yang dikirim dari formulir untuk memastikan bahwa data tersebut valid dan aman.
+
+Menyimpan data ke database
+Jika data yang dikirimkan valid dan aman, server akan menyimpan data ke database.
+
+Menampilkan data pada halaman web
+Data yang disimpan di database akan ditampilkan pada halaman web melalui template HTML. Untuk mengambil data dari database, server menggunakan bahasa pemrograman seperti Python atau PHP untuk mengambil data dari database dan mengirimkannya ke template HTML.
+
+Menerapkan template HTML
+Server akan menerapkan template HTML yang telah dibuat sebelumnya untuk menampilkan data yang disimpan di database. Dalam proses ini, server akan menggabungkan data dari database dengan elemen HTML yang telah ditentukan di dalam template HTML.
+
+Pengguna melihat hasilnya
+Pengguna akan melihat halaman web yang menampilkan data yang telah disimpan pada database. Data dapat ditampilkan dalam bentuk tabel, grafik, atau elemen lainnya tergantung pada desain template HTML.
+
+Dengan demikian, proses alur data dari submisi formulir, penyimpanan data di database, dan tampilan data pada halaman web membutuhkan beberapa tahapan yang melibatkan validasi, pengambilan, penyimpanan, dan penggabungan data menggunakan bahasa pemrograman dan template HTML.
+
+4.Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas.
+
+Jawab:
+1.Buka file views.py di dalam aplikasi study_tracker.
+2.Tambahkan baris kode berikut: import redirect, UserCreationForm, dan messages.
+3.Buatlah fungsi baru bernama register yang menerima parameter request dan berisi kode untuk menghasilkan formulir registrasi secara otomatis menggunakan UserCreationForm(request.POST). Kemudian, hasilkan akun pengguna ketika data di-submit dari form dengan menggunakan form.save().
+4.Buatlah file baru bernama register.html pada folder study_tracker/templates untuk membuat halaman registrasi.
+5.Buatlah formulir dengan menggunakan generator {{ form.as_table }}.
+6.Buka file urls.py di dalam aplikasi study_tracker.
+7.Impor fungsi register dan tambahkan path-nya pada urls.py.
+8.Buka file views.py di dalam aplikasi study_tracker.
+9.Tambahkan baris kode berikut: import authenticate dan login.
+10.Buatlah fungsi baru bernama login_user yang menerima parameter request dan berisi kode untuk mengautentikasi pengguna yang ingin login.
+11.Buatlah file baru bernama login.html pada folder study_tracker/templates untuk membuat halaman login.
+12.Buka file urls.py di dalam aplikasi study_tracker.
+13.Impor fungsi login_user dan tambahkan path-nya pada urls.py.
+14.Modifikasi variabel name pada context dalam fungsi show_tracker yang berada pada views.py menjadi {{'name': request.user.username}} agar dapat menampilkan nama pengguna yang telah login.
+15Buka file views.py di dalam aplikasi study_tracker.
+16.Tambahkan baris kode berikut: import logout.
+17.Buatlah fungsi baru bernama logout_user yang menerima parameter request dan berisi kode untuk melakukan mekanisme logout.
+18.Buka file assignment_list.html pada folder study_tracker/templates.
+19.Tambahkan kode untuk menambahkan tombol logout.
+20.Buka file urls.py di dalam aplikasi study_tracker.
+21.Impor fungsi logout_user dan tambahkan path-nya pada urls.py.
+22.Buka file views.py di dalam aplikasi study_tracker.
+23.Tambahkan baris kode berikut: import login_required.
+24.Tambahkan kode {{ @login_required(login_url='/money_tracker/login/') }} di atas fungsi show_tracker agar halaman study tracker hanya dapat diakses oleh pengguna yang telah login (terautentikasi).
