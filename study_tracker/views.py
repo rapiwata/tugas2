@@ -14,13 +14,16 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 @login_required(login_url='/study_tracker/login/')
 def assignment_list(request):
     assignments_data = Assignment.objects.all()
     context = {
         'list_of_study': assignments_data,
-        'name': 'M.Raffi'
+        'name': request.user.username,
+        'last_login': request.COOKIES['last_login'],
     }
 
     return render(request, "assignment.html", context)
@@ -112,6 +115,29 @@ def delete_study(request, id):
     # Kembali ke halaman awal
     return HttpResponseRedirect(reverse('study_tracker:assignment_list'))
 
+@csrf_exempt
+def create_study_ajax(request):  
+# create object of form
+    form = AssignmentForm(request.POST or None)
+
+    if form.is_valid() and request.method == "POST":
+        form.save()
+        data = Assignment.objects.last()
+
+        # parsing the form data into json
+        result = {
+            'id':data.id,
+            'name':data.name,
+            'lesson':data.lesson,
+            'subject':data.subject,
+            'date':data.date,
+            'progress':data.progress,
+            'description':data.description
+        }
+        return JsonResponse(result)
+
+    context = {'form': form}
+    return render(request, "create_study.html", context)
 
 
 

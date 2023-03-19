@@ -9,6 +9,7 @@ from study_tracker.views import login_user
 from study_tracker.views import logout_user
 from study_tracker.views import modify_study
 from study_tracker.views import delete_study
+from study_tracker.views import create_study_ajax
 
 
 
@@ -26,6 +27,7 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
     path('modify/<int:id>', modify_study, name='modify_study'),
     path('delete/<int:id>', delete_study, name='delete_study'),
+    path('create-ajax/', create_study_ajax, name='create_study_ajax'),
 
 
 

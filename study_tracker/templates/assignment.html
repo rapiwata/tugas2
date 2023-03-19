@@ -1,6 +1,74 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+  $(document).ready(function(){
+      $.get("/study_tracker/json/", function(data) {
+          for (i=0; i<data.length; i++){
+              $('#study_tracker').append(`
+              <div id="${data[i].id}--task" class="col-md-6 col-lg-3 mb-3">
+                  <div class="card d-flex">
+                      <div class="card-body d-flex flex-column">
+                          <h5 class="card-title">${data[i].fields.name}</h5>
+                          <p class="card-text date">${data[i].fields.date}</p>
+                          <p class="card-text">${data[i].fields.lesson}</p>
+                          <p class="card-text">${data[i].fields.subject}</p>
+                          <p class="card-text">${data[i].fields.progress}</p>
+                          <p class="card-text">${data[i].fields.description}</p>
+                          <div class="mt-auto">
+                              <a href="/study_tracker/delete/${result.id}" class="btn btn-primary delete mb-2">Hapus</a>
+                              <a href="/study_tracker/modify/${result.id}" class="btn btn-secondary mb-2">Ubah</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              `)
+          }
+      });
+
+      $("#submit_btn").click(function(){
+            $.post("/study_tracker/create-ajax/", {
+                name: $("#name").val(),
+                lesson: $("#lesson").val(),
+                subject: $("#subject").val(),
+                progress: $("#progress").val(),
+                description: $("#description").val()
+
+            },
+            function(result, status){
+                if (status == 'success'){
+                    $("#study_tracker").append(`
+                    <div id="${result.id}--task" class="col-md-6 col-lg-3 mb-3">
+                        <div class="card d-flex">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">${result.name}</h5>
+                                <p class="card-text date">${result.date}</p>
+                                <p class="card-text">${result.lesson}</p>
+                                <p class="card-text">${result.subject}</p>
+                                <p class="card-text">${result.progress}</p>
+                                <p class="card-text">${result.description}</p>
+                                <div class="mt-auto">
+                                    <a href="/study_tracker/delete/${result.id}" class="btn btn-primary delete mb-2">Hapus</a>
+                                    <a href="/study_tracker/modify/${result.id}" class="btn btn-secondary mb-2">Ubah</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `);
+                $('#name').val('')
+                $('#date').val('')
+                $('#lesson').val('')
+                $('#subject').val('')
+                $('#progress').val('')
+                $('#description').val('')
+                }
+            })
+        })
+    })
+</script>
+
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -35,59 +103,58 @@
         </form>
       </div>
     </div>
+    
   </nav>
 
-<h5>Nama: </h5>
-<b>{{name}}</b>
+  <br>
+</a>
+</a>
+<body>
+    <h5>Nama: </h5>
+    <p>{{name}}</p>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+        Tambah studi
+    </button>
 
-<table>
-    <tr>
-        <th>Nama Tugas</th>
-        <th>Mata Kuliah</th>
-        <th>Tipe Tugas</th>
-        <th>Tanggal</th>
-        <th>Progres</th>
-        <th>Deskripsi</th>
-    </tr>
-    {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
-    {% for assignment in list_of_study %}
-    <tr>
-        <td>{{assignment.name}}</td>
-        <td>{{assignment.lesson}}</td>
-        <td>{{assignment.subject}}</td>
-        <td>{{assignment.date}}</td>
-        <td>{{assignment.progress}}</td>
-        <td>{{assignment.description}}</td>
-        <td>
-            <a href="{% url 'study_tracker:modify_study' assignment.pk %}">
-                <button>
-                    Ubah
-                </button>
-            </a>
-            <a href="{% url 'study_tracker:delete_study' assignment.pk %}">
-                <button>
-                    Hapus
-                </button>
-            </a>
-          </td>
-    </tr>
-{% endfor %}
-</table>
+    <!-- Modal -->
+    <div class="modal" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="createModalLabel">Tambah Studi</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+            </div>
+            <div class="modal-body">
+            {% csrf_token %}
+            <label for="name" class="form-label">Judul studi:</label><br>
+            <input type="text" id="name" class="form-control" name="name" placeholder="Kalkulus"><br>
+            <label for="subject" class="form-label">jenis studi:</label>
+            <select name="subject" id="subject" class="form-select" aria-label="Default select example">
+                <option selected value="Tugas Harian">Tugas Harian</option>
+                <option value="Tugas Akhir">Tugas Akhir</option>
+                <option value="Ujian">Ujian</option>
+            </select><br>
+            <label for="lesson" class="form-label">Matakuliah:</label><br>
+            <input type="text" id="lesson" class="form-control" name="lesson" placeholder="Kalkulus"><br>
+            <label for="progress" class="form-label">progress:</label><br>
+            <input type="number" id="progress" class="form-control" name="progress" placeholder=""><br>
+            <label for="description" class="form-label">Deskripsi studi:</label><br>
+            <input type="text" id="description" class="form-control" name="description" placeholder="Mengikuti sesuai jadwal"><br>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button id="submit_btn" type="button" class="btn btn-primary create" id="add-task" data-bs-dismiss="modal">Add</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
+
+<div class="row m-2" id="study_tracker"></div>
+
+
 
 <h5>Sesi terakhir login: {{ last_login }}</h5>
-
-<br>
-<a href="{% url 'study_tracker:logout' %}">
-    <button>
-        Logout
-    </button>
-</a>
-<a href="{% url 'study_tracker:create_study' %}">
-    <button>
-        studi baru
-    </button>
-</a>
-
 {% endblock content %}
 
 
