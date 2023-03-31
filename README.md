@@ -330,3 +330,333 @@ Jawab:
 22.Buka file views.py di dalam aplikasi study_tracker.
 23.Tambahkan baris kode berikut: import login_required.
 24.Tambahkan kode {{ @login_required(login_url='/money_tracker/login/') }} di atas fungsi show_tracker agar halaman study tracker hanya dapat diakses oleh pengguna yang telah login (terautentikasi).
+
+Soal Latihan 5(Latihan Baru)
+
+1.Apa perbedaan dari inline, internal, dan external CSS? Apa saja kelebihan dan kekurangan dari masing-masing style?
+
+jawab:CSS adalah singkatan dari Cascading Style Sheets, yang digunakan untuk mengontrol tampilan dan format pada halaman web. Ada tiga cara untuk menambahkan CSS ke halaman web: inline CSS, internal CSS, dan external CSS. Berikut adalah perbedaan dan kelebihan/kekurangan dari masing-masing jenis CSS:
+
+Inline CSS
+Inline CSS adalah CSS yang ditulis langsung pada elemen HTML yang ingin diubah tampilannya, dengan menggunakan atribut "style". Contohnya seperti ini:
+html
+Copy code
+<h1 style="color: red;">Ini adalah judul dengan warna merah</h1>
+Kelebihan:
+
+Sangat mudah digunakan dan diterapkan, karena hanya membutuhkan penambahan atribut "style" pada elemen HTML.
+Dapat mengatasi kebutuhan yang spesifik pada satu elemen HTML tertentu.
+Kekurangan:
+
+Tidak efisien dan tidak praktis untuk digunakan pada halaman web dengan jumlah elemen HTML yang banyak.
+Mengulangi penulisan CSS pada setiap elemen HTML yang sama membutuhkan banyak waktu dan usaha.
+Internal CSS
+Internal CSS ditulis pada tag <style> dalam bagian <head> dari halaman web. Contohnya seperti ini:
+html
+Copy code
+<head>
+  <style>
+    h1 {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ini adalah judul dengan warna merah</h1>
+</body>
+Kelebihan:
+
+Mudah diterapkan pada seluruh elemen HTML pada halaman web yang sama.
+Tidak membutuhkan waktu dan usaha yang banyak seperti inline CSS.
+Kekurangan:
+
+Tidak praktis digunakan pada halaman web yang berbeda-beda, karena harus menuliskan CSS pada setiap halaman web.
+External CSS
+External CSS adalah CSS yang ditulis pada file terpisah dengan ekstensi ".css", dan kemudian ditautkan ke halaman web menggunakan tag <link>. Contohnya seperti ini:
+html
+Copy code
+<head>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Ini adalah judul dengan warna merah</h1>
+</body>
+Kelebihan:
+
+Sangat efisien dan praktis digunakan pada halaman web yang berbeda-beda, karena dapat digunakan pada setiap halaman web dengan hanya menautkan file CSS yang sama.
+Memudahkan perubahan tampilan pada halaman web, karena hanya perlu mengubah file CSS yang terpisah.
+Kekurangan:
+
+Membutuhkan waktu dan usaha tambahan untuk membuat file CSS yang terpisah dan menautkannya ke halaman web.
+Dalam kesimpulannya, keputusan untuk menggunakan jenis CSS yang mana bergantung pada kebutuhan dan kompleksitas halaman web. Inline CSS cocok digunakan untuk mengubah tampilan elemen HTML secara spesifik. Internal CSS dapat digunakan pada halaman web yang kompleks, tetapi tidak ingin menghadapi kerumitan dalam penulisan CSS pada setiap elemen HTML. External CSS sangat cocok digunakan pada halaman web yang kompleks dan ingin efisien dalam perubahan tampilan.
+
+
+5.Jelaskan tag HTML5 yang kamu ketahui.
+
+jawab:CSS selector adalah cara untuk memilih elemen HTML yang ingin diubah tampilannya menggunakan CSS. Ada beberapa tipe CSS selector yang dapat digunakan, yaitu:
+
+Selector Elemen
+Selector elemen memilih elemen HTML berdasarkan jenis elemennya, seperti <h1>, <p>, atau <div>. Contohnya:
+css
+Copy code
+h1 {
+  color: red;
+}
+Selector ID
+Selector ID memilih elemen HTML berdasarkan atribut id yang diberikan. Setiap ID pada halaman web harus unik. Contohnya:
+css
+Copy code
+#header {
+  background-color: grey;
+}
+Selector Kelas
+Selector kelas memilih elemen HTML berdasarkan atribut class yang diberikan. Banyak elemen HTML dapat memiliki kelas yang sama. Contohnya:
+css
+Copy code
+.menu {
+  font-size: 16px;
+}
+Selector Universal
+Selector universal memilih semua elemen HTML pada halaman web. Contohnya:
+css
+Copy code
+* {
+  margin: 0;
+  padding: 0;
+}
+Selector Keturunan
+Selector keturunan memilih elemen HTML yang menjadi keturunan dari elemen lainnya. Contohnya:
+css
+Copy code
+div p {
+  font-weight: bold;
+}
+Selector Adjacent Sibling
+Selector adjacent sibling memilih elemen HTML yang menjadi saudara seketurunan dari elemen lainnya dan langsung bersebelahan. Contohnya:
+css
+Copy code
+h1 + p {
+  font-size: 18px;
+}
+Selector General Sibling
+Selector general sibling memilih elemen HTML yang menjadi saudara seketurunan dari elemen lainnya. Contohnya:
+css
+Copy code
+h1 ~ p {
+  font-size: 16px;
+}
+Selector Elemen Anak Langsung
+Selector elemen anak langsung memilih elemen HTML yang menjadi anak langsung dari elemen lainnya. Contohnya:
+css
+Copy code
+div > p {
+  color: blue;
+}
+Selector Attribute
+Selector attribute memilih elemen HTML berdasarkan atribut tertentu. Contohnya:
+css
+Copy code
+input[type="text"] {
+  border: 1px solid grey;
+}
+Itulah beberapa tipe CSS selector yang dapat digunakan untuk memilih elemen HTML pada halaman web. Pemilihan selector yang tepat akan memudahkan dalam mengubah tampilan elemen HTML.
+
+
+jelaskan step by step:
+-pertama saya mengimport Import JsonResponse dari django.httpdan csrf_exempt dari django.views.decorators.csrf ke dalam file views.py
+-Buatlah fungsi baru dengan nama create_study_ajax yang menerima parameter request pada file study_tracker/views.py.
+-kita salin kode tersebut pada def create_study_ajax(request):  
+-Import function yang telah kamu buat sebelumnya pada study_tracker/urls.py.
+-Tambahkan path baru untuk membuat objek transaksi baru dengan baris kode berikut ini pada urlpatterns. yaitu pada
+path('create-ajax/', create_study_ajax, name='create_study_ajax'),
+-Modifikasi file study_tracker/assginment.html
+{% extends 'base.html' %}
+
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+-lalu tambahkan kode seperti berikut
+<script>
+$(document).ready(function(){
+    $.get("/register/json/", function(data) {
+        for (i=0; i<data.length; i++){
+            $('#tracker').append(`
+            <div id="${data[i].id}--task" class="col-md-6 col-lg-3 mb-3">
+                <div class="card d-flex">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">${data[i].fields.name}</h5>
+                        <p class="card-text date">${data[i].fields.date}</p>
+                        <p class="card-text">${data[i].fields.lesson}</p>
+                        <p class="card-text">${data[i].fields.subject}</p>
+                        <p class="card-text">${data[i].fields.progress}</p>
+                        <div class="mt-auto">
+                            <a href="/register/delete/${data[i].pk}" class="btn btn-primary delete mb-2">Hapus</a>
+                            <a href="/register/modify/${data[i].pk}" class="btn btn-secondary mb-2">Ubah</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `)
+        }
+    });
+</script>
+
+-lalu kemudian kita tambahin kode kode seperti berikut pada assignment
+
+<body>
+    <h5>Nama: </h5>
+    <p>{{name}}</p>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+        Tambah studi
+    </button>
+
+    <!-- Modal -->
+    <div class="modal" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="createModalLabel">Tambah Studi</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+            </div>
+            <div class="modal-body">
+            {% csrf_token %}
+            <label for="name" class="form-label">Judul studi:</label><br>
+            <input type="text" id="name" class="form-control" name="name" placeholder="Kalkulus"><br>
+            <label for="subject" class="form-label">jenis studi:</label>
+            <select name="subject" id="subject" class="form-select" aria-label="Default select example">
+                <option selected value="Tugas Harian">Tugas Harian</option>
+                <option value="Tugas Akhir">Tugas Akhir</option>
+                <option value="Ujian">Ujian</option>
+            </select><br>
+            <label for="lesson" class="form-label">Matakuliah:</label><br>
+            <input type="text" id="lesson" class="form-control" name="lesson" placeholder="Kalkulus"><br>
+            <label for="progress" class="form-label">progress:</label><br>
+            <input type="number" id="progress" class="form-control" name="progress" placeholder=""><br>
+            <label for="description" class="form-label">Deskripsi studi:</label><br>
+            <input type="text" id="description" class="form-control" name="description" placeholder="Mengikuti sesuai jadwal"><br>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button id="submit_btn" type="button" class="btn btn-primary create" id="add-task" data-bs-dismiss="modal">Add</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
+
+<div class="row m-2" id="study_tracker"></div>
+
+
+
+<h5>Sesi terakhir login: {{ last_login }}</h5>
+{% endblock content %}
+
+
+-kemudian pada assigbment.html tambahin
+<script>
+  $(document).ready(function(){
+      $.get("/study_tracker/json/", function(data) {
+          for (i=0; i<data.length; i++){
+              $('#study_tracker').append(`
+              <div id="${data[i].id}--task" class="col-md-6 col-lg-3 mb-3">
+                  <div class="card d-flex">
+                      <div class="card-body d-flex flex-column">
+                          <h5 class="card-title">${data[i].fields.name}</h5>
+                          <p class="card-text date">${data[i].fields.date}</p>
+                          <p class="card-text">${data[i].fields.lesson}</p>
+                          <p class="card-text">${data[i].fields.subject}</p>
+                          <p class="card-text">${data[i].fields.progress}</p>
+                          <p class="card-text">${data[i].fields.description}</p>
+                          <div class="mt-auto">
+                              <a href="/study_tracker/delete/${result.id}" class="btn btn-primary delete mb-2">Hapus</a>
+                              <a href="/study_tracker/modify/${result.id}" class="btn btn-secondary mb-2">Ubah</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              `)
+          }
+      });
+
+      $("#submit_btn").click(function(){
+            $.post("/study_tracker/create-ajax/", {
+                name: $("#name").val(),
+                lesson: $("#lesson").val(),
+                subject: $("#subject").val(),
+                progress: $("#progress").val(),
+                description: $("#description").val()
+
+            },
+            function(result, status){
+                if (status == 'success'){
+                    $("#study_tracker").append(`
+                    <div id="${result.id}--task" class="col-md-6 col-lg-3 mb-3">
+                        <div class="card d-flex">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">${result.name}</h5>
+                                <p class="card-text date">${result.date}</p>
+                                <p class="card-text">${result.lesson}</p>
+                                <p class="card-text">${result.subject}</p>
+                                <p class="card-text">${result.progress}</p>
+                                <p class="card-text">${result.description}</p>
+                                <div class="mt-auto">
+                                    <a href="/study_tracker/delete/${result.id}" class="btn btn-primary delete mb-2">Hapus</a>
+                                    <a href="/study_tracker/modify/${result.id}" class="btn btn-secondary mb-2">Ubah</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `);
+                $('#name').val('')
+                $('#date').val('')
+                $('#lesson').val('')
+                $('#subject').val('')
+                $('#progress').val('')
+                $('#description').val('')
+                }
+            })
+        })
+    })
+</script>
+
+
+
+
+Tugas 6
+
+Jelaskan perbedaan antara asynchronous programming dengan synchronous programming.
+
+jawab :Synchronous programming dan asynchronous programming adalah dua pendekatan yang berbeda dalam mengatur bagaimana sebuah program berjalan. Perbedaan antara keduanya adalah sebagai berikut:
+
+Synchronous Programming
+Synchronous programming (sinkron) adalah pendekatan dimana sebuah program berjalan secara linear atau sekuensial. Artinya, kode dieksekusi baris per baris secara berurutan. Pada synchronous programming, sebuah task harus menyelesaikan eksekusinya sebelum task berikutnya dapat dimulai.
+
+Asynchronous Programming
+Asynchronous programming (asinkron) adalah pendekatan dimana sebuah program tidak perlu menunggu task yang sedang berjalan untuk menyelesaikan eksekusinya sebelum menjalankan task berikutnya. Pada asynchronous programming, program bisa melanjutkan eksekusinya meskipun task yang sedang berjalan belum selesai.
+
+Perbedaan utama antara synchronous programming dan asynchronous programming adalah cara program berjalan. Synchronous programming dijalankan secara sekuensial dan memerlukan waktu untuk menyelesaikan satu task sebelum mengeksekusi task berikutnya. Sementara itu, asynchronous programming dijalankan secara paralel atau simultan, sehingga memungkinkan beberapa task berjalan secara bersamaan tanpa harus menunggu satu sama lain.
+
+
+Jelaskan penerapan asynchronous programming pada AJAX.
+
+jawab:Asynchronous JavaScript and XML (AJAX) adalah teknik yang memungkinkan sebuah halaman web untuk memperbarui data secara dinamis tanpa harus memuat ulang seluruh halaman web. Pada dasarnya, AJAX memanfaatkan teknik asynchronous programming untuk mengirim request dan menerima response dari server tanpa harus menunggu halaman web untuk dimuat ulang.
+
+Berikut adalah penerapan asynchronous programming pada AJAX:
+
+Menggunakan XMLHttpRequest (XHR)
+XMLHttpRequest (XHR) adalah objek pada JavaScript yang memungkinkan sebuah halaman web untuk mengirim request HTTP asynchronous ke server dan menerima response dari server. Pada AJAX, XHR digunakan untuk mengirimkan request ke server tanpa harus menunggu halaman web untuk dimuat ulang. Setelah server memberikan response, XHR akan menangani data tersebut dan memperbarui halaman web sesuai dengan responsenya.
+
+Callback Function
+Pada AJAX, biasanya digunakan callback function untuk menangani respons dari server setelah request telah dikirimkan. Callback function akan dieksekusi setelah respons dari server diterima, dan akan memperbarui halaman web sesuai dengan responsenya. Callback function sangat berguna pada asynchronous programming karena memungkinkan program untuk menjalankan task secara bersamaan tanpa harus menunggu task sebelumnya selesai terlebih dahulu.
+
+Promise
+Promise adalah cara lain untuk menangani respons dari server pada AJAX. Promise pada AJAX mirip dengan callback function, namun menggunakan sintaks yang berbeda. Promise pada AJAX digunakan untuk menangani respons dari server dan melakukan aksi sesuai dengan responsenya.
+
+Jelaskan penerapan asynchronous programming pada AJAX.
+jawab:
+Dalam penerapan asynchronous programming pada AJAX, penting untuk memperhatikan keterkaitan antara request dan responsenya. Setiap request harus memiliki responsenya yang sesuai, dan halaman web harus diperbarui sesuai dengan responsenya. Dalam melakukan debugging pada AJAX, sangat disarankan untuk menggunakan tools developer pada browser seperti Chrome DevTools atau Firebug untuk memantau request dan responsenya.
+
+Dalam penerapan JavaScript dan AJAX, terdapat penerapan paradigma event-driven programming. Jelaskan maksud dari paradigma tersebut dan sebutkan salah satu contoh penerapannya pada tugas ini.
+
+jawab:
+Event-driven programming adalah sebuah metode pemrograman dimana jalur eksekusi program ditentukan oleh kejadian atau peristiwa tertentu, seperti masukan dari pengguna atau perubahan data. Berbeda dengan pendekatan pemrograman lainnya, pada event-driven programming, kode tidak dieksekusi secara berurutan dari atas ke bawah, melainkan dipicu oleh event yang terjadi. Pada penggunaan JavaScript dan AJAX, event-driven programming memungkinkan aplikasi web untuk merespons secara dinamis terhadap interaksi pengguna dan perubahan data tanpa perlu memuat ulang halaman secara keseluruhan. Dengan begitu, aplikasi web dapat memberikan pengalaman pengguna yang lebih baik dan responsif. Sumber referensi untuk topik ini dapat ditemukan di "Introduction to events" yang tersedia pada Mozilla Developer Network (MDN), "Ajax - Developer guides" pada MDN, dan "Event-driven application design with JavaScript" dari O'Reilly.
+
