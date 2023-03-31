@@ -221,6 +221,202 @@ urlpatterns = [
 
 (step akhir) untuk memastikan server nya berjalan lakukan perintah python manage.py runserver pada command promp [http://localhost:8000/study_tracker/] //klik ctrl-c untuk mengakhiri server
 
+Soal Latihan Baru(Latihan 3)
+
+1.Apakah kita dapat menginput data selain melalui form? Namun mengapa form dapat dikatakan lebih baik daripada menggunakan cara tersebut?
+
+jawab:Ya, selain melalui form, kita dapat menginput data melalui berbagai cara seperti mengimpor data dari file atau menggunakan API untuk mengambil data dari sumber eksternal. Namun, menggunakan form masih dianggap sebagai salah satu cara terbaik untuk menginput data karena beberapa alasan:
+
+Penggunaan yang mudah dan familiar: Form adalah cara yang paling umum dan mudah digunakan oleh pengguna karena hampir semua orang telah terbiasa dengan pengisian formulir pada website atau aplikasi.
+
+Validasi data: Form memungkinkan validasi data secara real-time saat pengguna mengisi form, sehingga meminimalkan kemungkinan kesalahan dan menghemat waktu yang dibutuhkan untuk memperbaiki data yang salah.
+
+Kontrol aksesibilitas: Form memungkinkan pengontrolan aksesibilitas data, yang berarti kita dapat memilih informasi mana yang dapat diakses oleh pengguna tertentu dengan memberikan kontrol akses yang berbeda untuk setiap pengguna.
+
+Integrasi dengan database: Data yang dimasukkan melalui form dapat dengan mudah diintegrasikan dengan database, sehingga membuat pengelolaan data menjadi lebih mudah dan efisien.
+
+Pembaruan dan perbaikan: Form memungkinkan kita untuk memperbarui dan memperbaiki data dengan mudah karena data yang disimpan dalam bentuk struktural dan teratur.
+
+Meskipun demikian, terkadang kita perlu mempertimbangkan penggunaan cara lain untuk menginput data, tergantung pada kebutuhan dan tujuan yang ingin dicapai.
+
+2.Jelaskan perbedaan antara JSON, XML, dan HTML!
+
+Jawab:JSON, XML, dan HTML adalah format data yang berbeda yang digunakan untuk berbagai tujuan dalam pengembangan web. Secara umum, JSON digunakan untuk pertukaran data antar sistem, XML digunakan untuk menggambarkan data struktural, dan HTML digunakan untuk membuat halaman web dan menampilkan konten di browser web. JSON memiliki sintaks yang mudah dibaca dan ditulis dan terdiri dari pasangan nama/kunci dan nilai. XML menggunakan tag dan atribut untuk mengorganisir data dalam dokumen yang dapat dibaca oleh mesin dan manusia. Sementara HTML digunakan untuk menentukan struktur dan tampilan sebuah halaman web, termasuk judul, teks, gambar, dan link, dan menggunakan tag dan atribut untuk mengorganisir dan memformat konten halaman web. Meskipun ketiga format ini memiliki fungsi yang berbeda, tetapi dapat digunakan secara saling dipertukarkan untuk berbagai keperluan sesuai dengan kebutuhan aplikasi atau pengembangan web.
+
+3.Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform.
+
+jawab:Data delivery atau pengiriman data adalah proses transfer data dari satu sistem ke sistem lain atau ke pengguna akhir. Dalam pengimplementasian sebuah platform, data delivery sangat penting karena memungkinkan sistem memberikan data atau informasi yang diperlukan oleh pengguna atau sistem lain dengan cara yang efisien dan akurat. Ada beberapa alasan mengapa data delivery dibutuhkan dalam pengimplementasian platform, yaitu untuk meningkatkan efisiensi, memperbaiki pengalaman pengguna, mengurangi kesalahan manusia, dan meningkatkan keamanan. Dengan demikian, data delivery adalah hal yang penting dalam pengimplementasian platform, karena memungkinkan pengguna dan sistem lain untuk memperoleh data yang diperlukan dengan cara yang lebih baik dan lebih aman.
+
+4.Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas.
+
+jawab:
+-pertama pada views.py pada study_tracker buat fungsi register yang menerima request
+-tambahkan import 
+from django.shortcuts import redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+-tambahkan fungsi
+def register(request):
+    form = UserCreationForm()
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Akun telah berhasil dibuat!')
+            return redirect('study_tracker:login')
+
+    context = {'form':form}
+    return render(request, 'register.html', context)
+-Buatlah berkas HTML baru dengan nama register.html pada folder study_tracker/templates. Isi register dengan berikut
+-{% extends 'base.html' %}
+
+{% block meta %}
+<title>Registrasi Akun</title>
+{% endblock meta %}
+
+{% block content %}  
+
+<div class = "login">
+
+    <h1>Formulir Registrasi</h1>  
+
+        <form method="POST" >  
+            {% csrf_token %}  
+            <table>  
+                {{ form.as_table }}  
+                <tr>  
+                    <td></td>
+                    <td><input type="submit" name="submit" value="Daftar"/></td>  
+                </tr>  
+            </table>  
+        </form>
+
+    {% if messages %}  
+        <ul>   
+            {% for message in messages %}  
+                <li>{{ message }}</li>  
+                {% endfor %}  
+        </ul>   
+    {% endif %}
+
+</div>  
+
+{% endblock content %}
+-pada urls.py tambahkan from study_tracker.views import register
+-tambahkan path url path('register/', register, name='register'),
+-buat form login(Buka views.py yang ada pada folder study_tracker dan buatlah fungsi dengan nama login_user yang menerima parameter request.)
+-tambahkan path from django.contrib.auth import authenticate, login
+-def login_user(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user) # melakukan login terlebih dahulu
+            response = HttpResponseRedirect(reverse("study_tracker:assignment_list")) # membuat response
+            response.set_cookie('last_login', str(datetime.datetime.now())) # membuat cookie last_login dan menambahkannya ke dalam response
+            return response
+        else:
+            messages.info(request, 'Username atau Password salah!')
+    context = {}
+    return render(request, 'login.html', context)
+-buat htlm login.htlm dengan isi kode
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+
+<div class = "login">
+
+    <h1>Login</h1>
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Username: </td>
+                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+            </tr>
+
+            <tr>
+                <td>Password: </td>
+                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td><input class="btn login_btn" type="submit" value="Login"></td>
+            </tr>
+        </table>
+    </form>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    Belum mempunyai akun? <a href="{% url 'study_tracker:register' %}">Buat Akun</a>
+
+</div>
+
+{% endblock content %}
+-pada url.py tambahkan login user// from study_tracker.views import login_user
+-tambahkan path('login/', login_user, name='login'), pada urlpatterns
+-modif name pada fungsi show tracker -> 'name': request.user.username,
+-selanjutnya kita akan membuat fungsi logout dimana yang pertama yaitu
+Buka views.py yang ada pada folder study_tracker dan buatlah fungsi dengan nama logout_user yang menerima parameter request.
+-impor logout(from django.contrib.auth import logout)
+-tambahkan fungsi baru
+def logout_user(request):
+    logout(request)
+    return redirect('study_tracker:login')
+-pada berkas assignment.html yang ada pada study_tracker/templates
+-Buka urls.py yang ada pada folder study_tracker dan impor fungsi yang sudah kamu buat tadi.
+from study_tracker.views import logout_user
+-tambahkan path url pada urlpatterns
+path('logout/', logout_user, name='logout'),
+-selanjutnya adalah restriksi pada halaman study_tracker
+-pertama Buka views.py yang ada pada folder study_tracker dan tambahkan import login_required pada bagian paling atas.
+from django.contrib.auth.decorators import login_required
+-Tambahkan kode @login_required(login_url='/tracker/login/') di atas fungsi show_tracker
+@login_required(login_url='/assigment/login/')
+def show_tracker(request):
+-selanjutnya kita melakukan logout dengan cara membuka views.py pada study_tracker dan tambahkan import seperti
+import datetime
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+-Pada fungsi login_user, kita akan menambahkan fungsi untuk menambahkan cookie yang bernama last_login untuk melihat kapan terakhir kali pengguna melakukan login.
+seperti
+    login(request, user) # melakukan login terlebih dahulu
+    response = HttpResponseRedirect(reverse("study_tracker:show_tracker")) # membuat response
+    response.set_cookie('last_login', str(datetime.datetime.now())) # membuat cookie last_login dan menambahkannya ke dalam response
+    return response
+-Pada fungsi show_tracker, tambahkan potongan kode 'last_login': request.COOKIES['last_login'] ke dalam variabel context. Berikut adalah contoh kode yang sudah diubah.
+context = {
+    'list_of_assignment: assignment_data,
+    'name': 'Kak Athal',
+    'last_login': request.COOKIES['last_login'],
+}
+-Ubah fungsi logout_user menjadi seperti potongan kode berikut. Potongan kode ini menambahkan mekanisme penghapusan cookie last_login saat pengguna melakukan logout.
+def logout_user(request):
+    logout(request)
+    response = HttpResponseRedirect(reverse('study_tracker:login'))
+    response.delete_cookie('last_login')
+    return response
+-pada assignment.html tambahkan last login
+<h5>Sesi terakhir login: {{ last_login }}</h5>
+
+
+
+
+
 Soal Latihan Baru(Latihan 4)
 
 1.Apa kegunaan {% csrf_token %} pada elemen <form>? Apa yang terjadi apabila tidak ada potongan kode tersebut pada elemen <form>?
@@ -329,7 +525,7 @@ Jawab:
 21.Impor fungsi logout_user dan tambahkan path-nya pada urls.py.
 22.Buka file views.py di dalam aplikasi study_tracker.
 23.Tambahkan baris kode berikut: import login_required.
-24.Tambahkan kode {{ @login_required(login_url='/money_tracker/login/') }} di atas fungsi show_tracker agar halaman study tracker hanya dapat diakses oleh pengguna yang telah login (terautentikasi).
+24.Tambahkan kode {{ @login_required(login_url='/study_tracker/login/') }} di atas fungsi show_tracker agar halaman study tracker hanya dapat diakses oleh pengguna yang telah login (terautentikasi).
 
 Soal Latihan 5(Latihan Baru)
 
