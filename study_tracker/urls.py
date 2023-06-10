@@ -1,5 +1,5 @@
 from django.urls import path
-from study_tracker.views import assignment_list
+from study_tracker.views import assignment_list, create_transaction_flutter
 from study_tracker.views import create_study
 from study_tracker.views import show_xml 
 from study_tracker.views import show_json 
@@ -28,6 +28,8 @@ urlpatterns = [
     path('modify/<int:id>', modify_study, name='modify_study'),
     path('delete/<int:id>', delete_study, name='delete_study'),
     path('create-ajax/', create_study_ajax, name='create_study_ajax'),
+    path('create-flutter/', create_transaction_flutter, name='create_transaction_flutter'),
+
 
 
 
