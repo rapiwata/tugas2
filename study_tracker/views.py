@@ -142,25 +142,28 @@ def create_study_ajax(request):
     return render(request, "create_study.html", context)
 
 @csrf_exempt
-def create_transaction_flutter(request):
+def create_study_flutter(request):
     if request.method == 'POST':
 
         data = json.loads(request.body)
 
-        new_transaction = Assignment.objects.create(
+        new_study = Assignment.objects.create(
             name = data["name"],
-            type = data["type"],
-            amount = int(data["amount"]),
+            lesson = data["lesson"],
+            subject = data["subject"],
+            progress = int(data["progress"]),
             description = data["description"]
         )
+        
+        
+        
 
-        new_transaction.save()
+        new_study.save()
 
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
-
-
+    
 
 
 
