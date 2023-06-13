@@ -10,6 +10,8 @@ from study_tracker.views import logout_user
 from study_tracker.views import modify_study
 from study_tracker.views import delete_study
 from study_tracker.views import create_study_ajax
+from study_tracker.views import create_study_flutter
+from study_tracker.views import logout
 
 
 
@@ -22,7 +24,7 @@ urlpatterns = [
     path('json/', show_json, name='show_json'), 
     path('xml/<int:id>', show_xml_by_id, name='show_xml_by_id'),
     path('json/<int:id>', show_json_by_id, name='show_json_by_id'), 
-     path('register/', register, name='register'),
+    path('register/', register, name='register'),
     path('login/', login_user, name='login'),
     path('logout/', logout_user, name='logout'),
     path('modify/<int:id>', modify_study, name='modify_study'),

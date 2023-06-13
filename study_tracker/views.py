@@ -154,9 +154,6 @@ def create_study_flutter(request):
             progress = int(data["progress"]),
             description = data["description"]
         )
-        
-        
-        
 
         new_study.save()
 
